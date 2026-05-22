@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BC Wallet</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      background:#0b0f1a;
+      color:white;
+      min-height:100vh;
+    }
+
+    header{
+      padding:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      background:#111827;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo-icon{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#00d2ff,#3a7bd5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+      font-size:20px;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:auto;
+      padding:20px;
+    }
+
+    .card{
+      background:#111827;
+      border-radius:20px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .balance{
+      font-size:42px;
+      font-weight:bold;
+      margin-top:10px;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:15px;
+      margin-top:20px;
+    }
+
+    button{
+      border:none;
+      padding:14px;
+      border-radius:14px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#00d2ff,#3a7bd5);
+      color:white;
+      font-weight:bold;
+      transition:0.2s;
+    }
+
+    button:hover{
+      transform:scale(1.03);
+    }
+
+    .token-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:20px;
+    }
+
+    .token{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#1f2937;
+      padding:15px;
+      border-radius:14px;
+    }
+
+    .token-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .coin{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#00d2ff,#3a7bd5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+    }
+
+    .status{
+      color:#00ff88;
+      margin-top:8px;
+      font-size:14px;
+    }
+
+    .chart{
+      margin-top:20px;
+      height:220px;
+      border-radius:16px;
+      background:linear-gradient(180deg,#1e293b,#0f172a);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#94a3b8;
+      font-size:18px;
+    }
+
+    @media(max-width:768px){
+      .balance{
+        font-size:32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">BC</div>
+    <div>
+      <h2>BC Wallet</h2>
+      <div class="status" id="status">
+        Conectando...
+      </div>
+    </div>
+  </div>
+
+  <button onclick="refreshWallet()">
+    Atualizar
+  </button>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Saldo Total</h3>
+
+    <div class="balance" id="balance">
+      $0.00
+    </div>
+
+    <div class="actions">
+      <button>Enviar</button>
+      <button>Receber</button>
+      <button>Swap</button>
+      <button>Staking</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Gráfico BC</h3>
+
+    <div class="chart">
+      Candle Chart API
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Tokens</h3>
+
+    <div class="token-list">
+
+      <div class="token">
+        <div class="token-left">
+          <div class="coin">BC</div>
+
+          <div>
+            <strong>BC Coin</strong>
+            <div>Mini Blockchain</div>
+          </div>
+        </div>
+
+        <div>
+          <strong>0 BC</strong>
+        </div>
+      </div>
+
+      <div class="token">
+        <div class="token-left">
+          <div class="coin">ETH</div>
+
+          <div>
+            <strong>Ethereum</strong>
+            <div>Mainnet</div>
+          </div>
+        </div>
+
+        <div>
+          <strong>0 ETH</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+async function checkAPI() {
+  try{
+    const res = await fetch('/api/health');
+    const data = await res.json();
+
+    document.getElementById('status').innerHTML =
+      '🟢 ' + data.status;
+
+  }catch(e){
+    document.getElementById('status').innerHTML =
+      '🔴 Offline';
+  }
+}
+
+function refreshWallet(){
+  checkAPI();
+}
+
+checkAPI();
+</script>
+
+</body>
+</html>
