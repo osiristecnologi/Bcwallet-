@@ -1,0 +1,36 @@
+body{
+    margin:0;
+    background:#0f172a;
+    font-family:Arial;
+    color:white;
+}
+
+.app{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+    width:350px;
+    background:#111827;
+    padding:25px;
+    border-radius:20px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#8b5cf6;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#wallet{
+    margin-top:20px;
+    word-break:break-word;
+}
