@@ -1,28 +1,37 @@
 const express = require('express');
 const path = require('path');
-const crypto = require('crypto');
+
+const HDWallet = require('./wallet/HDWallet');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(express.static('public'));
 
-app.get('/api/wallet', (req, res) => {
+app.post('/api/create-wallet', async (req, res) => {
 
-  const wallet = {
-    address: 'BC' + crypto.randomBytes(20).toString('hex'),
-    privateKey: crypto.randomBytes(32).toString('hex'),
-    balance: 0
-  };
+    try {
 
-  res.json(wallet);
+        const wallet = new HDWallet();
+
+        const data = await wallet.createWallet();
+
+        res.json(data);
+
+    } catch (e) {
+
+        res.status(500).json({
+            error: e.message
+        });
+
+    }
+
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log('Servidor rodando');
-});
+app.listen(PORT);
