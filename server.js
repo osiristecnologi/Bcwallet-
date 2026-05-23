@@ -1,37 +1,38 @@
 const express = require('express');
 const path = require('path');
-
-const HDWallet = require('./wallet/HDWallet');
+const crypto = require('crypto');
+const bip39 = require('bip39');
 
 const app = express();
 
-app.use(express.json());
 app.use(express.static('public'));
 
-app.post('/api/create-wallet', async (req, res) => {
+app.get('/api/create-wallet', async (req, res) => {
 
-    try {
+  const mnemonic = bip39.generateMnemonic();
 
-        const wallet = new HDWallet();
+  const privateKey = crypto.randomBytes(32).toString('hex');
 
-        const data = await wallet.createWallet();
+  const address = 'BC' + crypto
+    .createHash('sha256')
+    .update(privateKey)
+    .digest('hex')
+    .slice(0, 40);
 
-        res.json(data);
-
-    } catch (e) {
-
-        res.status(500).json({
-            error: e.message
-        });
-
-    }
-
+  res.json({
+    mnemonic,
+    privateKey,
+    address,
+    balance: 0
+  });
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log('BC Wallet Online');
+});
