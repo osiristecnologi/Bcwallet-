@@ -1,34 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>BC Wallet</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BC Wallet</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="app">
+  <div class="app">
 
-<div class="card">
+    <header class="topbar">
+      <div>
+        <h1>BC Wallet</h1>
+        <p>Sua carteira descentralizada</p>
+      </div>
 
-<h1>BC Wallet</h1>
+      <div class="avatar">BC</div>
+    </header>
 
-<button id="create">
-Criar Wallet
-</button>
+    <section class="balance-card">
+      <p>Saldo Total</p>
+      <h2 id="balance">0.0000 BC</h2>
 
-<div id="wallet"></div>
+      <div class="wallet-address" id="walletAddress">
+        Nenhuma wallet conectada
+      </div>
+    </section>
 
-</div>
+    <section class="actions">
+      <button id="createWallet">Criar Wallet</button>
+      <button id="importWallet" class="secondary">Importar</button>
+    </section>
 
-</div>
+    <section class="wallet-box hidden" id="walletBox">
 
-<script src="app.js"></script>
+      <div class="info-card">
+        <h3>Seed Phrase</h3>
+        <textarea id="mnemonic" readonly></textarea>
+      </div>
 
+      <div class="info-card">
+        <h3>Private Key</h3>
+        <textarea id="privateKey" readonly></textarea>
+      </div>
+
+      <div class="info-card">
+        <h3>Endereço</h3>
+        <textarea id="address" readonly></textarea>
+      </div>
+
+    </section>
+
+    <nav class="bottom-nav">
+      <button>🏠</button>
+      <button>💸</button>
+      <button>📈</button>
+      <button>⚙️</button>
+    </nav>
+
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
